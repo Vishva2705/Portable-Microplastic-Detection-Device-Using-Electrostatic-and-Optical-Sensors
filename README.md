@@ -83,7 +83,7 @@ The proposed system combines electrostatic sensing and optical light scattering 
 
 # Block Diagram
 
-![Block Diagram](block_diagram.jpg)
+![Block Diagram](block_diagram.png)
 
 ---
 
@@ -101,7 +101,7 @@ The proposed system combines electrostatic sensing and optical light scattering 
 
 ## LCD Output
 
-![LCD Output](lcd_output.jpg)
+![LCD Output](lcd_output1.jpg)
 
 ---
 
