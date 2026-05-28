@@ -1,0 +1,62 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define TURBIDITY_PIN A0
+
+// Change address if needed (0x27 or 0x3F)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TURBIDITY_PIN, INPUT);
+
+  lcd.init();
+  lcd.backlight();
+
+  lcd.setCursor(0, 0);
+  lcd.print("Water Quality");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  int sensorValue = analogRead(TURBIDITY_PIN);
+  float voltage = sensorValue * (5.0 / 1023.0);
+
+  String status;
+
+  // Classification based on your calibration
+  if (sensorValue > 380) {
+    lcd.clear();
+    status = "CLEAR";
+  }
+  else if (sensorValue > 350) {
+    lcd.clear();
+    status = "MODERATE";
+  }
+  else {
+    lcd.clear();
+    status = "DIRTY";
+  }
+
+  // ---- LCD DISPLAY ----
+  lcd.setCursor(0, 0);
+  lcd.print("Val:");
+  lcd.print(sensorValue);
+  lcd.print(" V:");
+  lcd.print(voltage, 1); // 1 decimal
+
+  lcd.setCursor(0, 1);
+  lcd.print("Status: ");
+  lcd.print(status);
+
+  // ---- SERIAL MONITOR ----
+  Serial.print("Raw Value: ");
+  Serial.print(sensorValue);
+  Serial.print(" | Voltage: ");
+  Serial.print(voltage);
+  Serial.print(" V | Status: ");
+  Serial.println(status);
+
+  delay(1000);
+}
